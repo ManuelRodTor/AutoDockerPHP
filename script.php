@@ -116,6 +116,9 @@ else{
 	  <form action="/script.php" method="post">
 	     <input type="hidden" value="no_datos" id="no_mas" name="no_mas">
 	     <button class="btn btn-success">Finalizar introducci&oacute;n</button>
+	  </form>
+	  <br>
+	  <form action="/script.php" method="post">
 	     <input type="hidden" value="borrar_csv" id="borrar_csv" name="borrar_csv">
 	     <button class="btn btn-success">Borrar datos CSV</button>
 	  </form>
