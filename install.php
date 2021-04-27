@@ -1,7 +1,6 @@
 <?php
-	$file='datos.csv';
+	$file='/var/www/datos.csv';
 	$actual = file_get_contents($file);
-	include '/var/www/ficheros/pluggable.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -43,6 +42,7 @@
 </html>
 
 <?php
+echo "<h3>&nbsp;Listado De Wordpress levantados</h3>";
 	//Generación de puertos libres
 /*
 			//Método conexión 1
@@ -57,7 +57,7 @@
 	//PASS
 	$key ="hypriot";
 	//String
-	$ssh = new Net_SSH2('172.17.0.1', 22);   // Domain or IP
+	$ssh = new Net_SSH2('172.17.0.1', 22);
 	$ssh->login('pirate', $key);
 		
 	$contenido=$ssh->exec("docker ps -a | sed 's/ \{1,\}/ /g'");
@@ -130,10 +130,79 @@
 		$mail=$dato[4];
 		
 		//Generación de datos restantes
-		$port_wp= $all_ports[$indexport];
-		$scheme="auth";
-		$hash= wp_hash( $pass, $scheme );
-		echo $hash;
+		$url= $all_ports[$indexport];
+
+		//Crear hash propio [[ DESARROLLO en Cli funcioan en web no]]
+
+
+		//Hash temporal de contraseña.
+		$hash="OERdEA9ZeE50cuz3j164kJQ3LUPto1";
+
+
+		//Creación de la DB
+		$mySQL = new mysqli('192.168.0.22:3306', 'root',  'RootPassXx-');
+
+		$mySQL->query("CREATE DATABASE ".$nombreDB);
+		$mySQL->query("GRANT ALL PRIVILEGES ON ".$nombreDB.".* TO 'wordpress'"); 
+	
+		mysqli_close($mySQL);
+
+		//Creación del entorno Docker
+		$ssh->exec("docker volume create ".$nombreWP);
+		$ssh->exec("cp -r /var/lib/docker/volumes/wp1/_data /var/lib/docker/volumes/".$nombreWP."/_data");
+		$ssh->exec("docker run -itd --name ".$nombreWP." -p ".$url.":80 -v ".$nombreWP.":/var/www/html -e WORDPRESS_DB_HOST=192.168.0.22:3306 -e WORDPRESS_DB_USER=wordpress -e WORDPRESS_DB_PASSWORD=MySQLPassPrueba -e WORDPRESS_DB_NAME=".$nombreDB." wordpress");	
+		
+		//	Transformación de la plantilla
+		$ssh->exec("cat /home/pirate/template.sql | sed 's/datos_db/'".$nombreDB."'/g' | sed 's/URL_PAG/'".$url."'/g' | sed 's/blogname_data/'".$nombreWP."'/g' | sed 's/admin_email@wp.es/'".$mail."'/g' | sed 's/HashContrasena/'".$hash."'/g' | sed 's/user_login_data/'".$username."'/g' | sed 's/first_name_data/'".$username."'/g' > /home/pirate/sql_content.sql");
+		$ssh->exec("mysql -u root -h 192.168.0.22 -pRootPassXx- < /home/pirate/sql_content.sql");
+		
+		//Generación de datos restantes
+		$url= $all_ports[$indexport];
+	//	$mySQL->close();
+	//	mysqli_close($mySQL);
+
+		// Generamos el Hash [[ ERROR a nivel Web // Buen funcionameinto PHP cli]]
+//		set_include_path('/var/www/phppass');
+//		include_once("PasswordHash.php");
+
+//		$t_hasher = new PasswordHash(8, FALSE);
+//		$hash = $t_hasher->HashPassword($pass);
+
+		//	Insertamos el HASH
+
+		$mySQL_DB = new mysqli("192.168.0.22:3306", "root",  "RootPassXx-", "$nombreDB");
+		$mySQL_DB->query("UPDATE (wp_users) SET user_pass = MD5('$pass') WHERE ID = 1;");
+	//	mysqli_close($mySQL_DB);
+	//	$mySQL_DB->close();
+
+		//	Registro de datos generados:
+
+	$fichero_regis="/home/registro_containers_generados";
+	/*
+	$current = file_get_contents($fichero_regis);
+	$current .= $nombreDB.";".$nombreWP.";".$username.";".$pass.";".$mail.";".$url."\n";
+	file_put_contents($fichero_container, $current);
+	*/
+	$sum="1";
+	$contador=$index_fichero+$sum;
+	
+	echo "<p><n>&nbsp;&nbsp;&nbsp;&nbsp;Docker nº".$contador."<n></p>";
+	echo "<p>&nbsp;&nbsp;&nbsp;&nbsp;Nombre del Container: ".$nombreDB."</p>";
+	echo "<p>&nbsp;&nbsp;&nbsp;&nbsp;Nombre de la Base de Datos: ".$nombreWP."</p>";
+	echo "<p>&nbsp;&nbsp;&nbsp;&nbsp;Nombre del usuario ".$username."</p>";
+	echo "<p>&nbsp;&nbsp;&nbsp;&nbsp;Contraseña del usuario ".$pass."</p>";
+	echo "<p>&nbsp;&nbsp;&nbsp;&nbsp;Correo del usuario ".$mail."</p>";
+	echo "<p>&nbsp;&nbsp;&nbsp;&nbsp;Enlace al sitio Web</p>";
+	echo '<a href="http://85.136.119.23:'.$url.'">&nbsp;&nbsp;&nbsp;&nbsp;Link al sitio</a>';
+	echo "<br>";
+	echo "<br>";
 	}
+$fichero=file_get_contents($fichero_regis);
+$fichero_a=rtrim($fichero);
+$fichero_b=explode("\n",$fichero_a);
+foreach($fichero_b as $index_fichero => $linea_fichero){
+	$linea_fichero_a=rtrim($linea_fichero);
+	$linea_fichero_b=explode(";",$linea_fichero_a);
+}
 
 ?>
