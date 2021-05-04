@@ -1,4 +1,4 @@
 CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
-15fca79d138a ubuntu "/bin/bash" 10 days ago Up 9 hours 0.0.0.0:80->80/tcp php
-7434195a4114 yobasystems/alpine-mariadb "/scripts/run.sh" 2 weeks ago Up 9 hours 0.0.0.0:3306->3306/tcp, 0.0.0.0:999->22/tcp sqldb
-aa4a55e6ea5a wordpress "docker-entrypoint.s…" 2 weeks ago Up 9 hours 0.0.0.0:8080->80/tcp wpsql
+6ce29bcaf509 wordpress "docker-entrypoint.s…" 4 hours ago Up 4 hours 0.0.0.0:8080->80/tcp wpsql
+15fca79d138a ubuntu "/bin/bash" 2 weeks ago Up 4 hours 0.0.0.0:80->80/tcp php
+7434195a4114 yobasystems/alpine-mariadb "/scripts/run.sh" 3 weeks ago Up 4 hours 0.0.0.0:3306->3306/tcp, 0.0.0.0:999->22/tcp sqldb

@@ -42,7 +42,7 @@ if ( $_POST["no_mas"] == "no_datos" ) {
 	<div class="row">
 		<!-- IZQUIERDA-SUP -->
 		<div class="col-sm-6" >
-		<p>¿Comenzamos con la instalación?</p>
+		<h5>¿Comenzamos con la instalación?</h5>
 		<a href="/install.php" class="btn btn-success">SI </a>
 		<a href="/script.php"   class="btn btn-danger">NO</a>
 		</div>
@@ -50,7 +50,7 @@ if ( $_POST["no_mas"] == "no_datos" ) {
 
 		<!-- DERECHA-SUP -->
 		<div class="col-sm-4" >
-		<p><b>Datos en el CSV:</b></p>
+		<h5><b>Datos en el CSV:</b></h5>
 		<?php
 			$actual_a=rtrim($actual);
 			$actual_b=explode("\n",$actual_a);
@@ -67,37 +67,37 @@ if ( $_POST["no_mas"] == "no_datos" ) {
 }
 else{
 ?>
-<div class="container-fluid"> 
+	<div class="container-fluid"> 
 	<div class="row">
 	<!-- IZQUIERDA-SUP -->
 		<div class="col-sm-6">
-		<p><b>Introduzca los datos de cada Wordpress:</b></p> 
+		<h5><b>Introduzca los datos de cada Wordpress:</b></h5> 
 		<br>
 		<form action="/script.php" method="post">
 
-			&nbsp;&nbsp;&nbsp;&nbsp
-			<label for="database">Nombre de la DB:</label>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp
-			<input type="text" id="database" name="database"><br><br>
-
-			&nbsp;&nbsp;&nbsp;&nbsp
+			<div class="form-group">
+				<label for="database">Nombre de la DB:</label>
+				<input type="text" class="form-control" id="database" name="database">
+			</div>
+			<div class="form-group">
 			<label for="container">Nombre del Wordpress:</label>
-			<input type="text" id="container" name="container"><br><br>
+			<input type="text" class="form-control" id="container" name="container">
+			</div>
 
-			&nbsp;&nbsp;&nbsp;&nbsp
+			<div class="form-group">
 			<label for="user">Nombre de usuario:</label>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input type="text" id="user" name="user"><br><br>
+			<input type="text" class="form-control" id="user" name="user">
+			</div>
 
-			&nbsp;&nbsp;&nbsp;&nbsp
+			<div class="form-group">
 			<label for="pass">Contraseña:</label>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input type="password" id="pass" name="pass"><br><br>
+			<input type="password" class="form-control" id="pass" name="pass">
+			</div>
 
-			&nbsp;&nbsp;&nbsp;&nbsp
+			<div class="form-group">
 			<label for="mail">Correo:</label>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input type="text" id="mail" name="mail"><br><br>
+			<input type="text" class="form-control" id="mail" name="mail">
+			</div>
 
 			<input type="hidden" value="hay_datos" id="check" name="check">
 
@@ -119,10 +119,10 @@ else{
 			</div>
 		</div>
 		<br>
-
+		<br>
 		<!-- DERECHA-SUP -->
 		<div class="col-sm-4">
-		<p><b>Datos en el CSV:</b></p>
+		<h5><b>Datos en el CSV:</b></h5>
 		<?php
 			$actual_a=rtrim($actual);
 			$actual_b=explode("\n",$actual_a);
