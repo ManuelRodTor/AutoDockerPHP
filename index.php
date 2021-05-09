@@ -1,155 +1,69 @@
+<?php
+	$file='/var/www/datos.csv';
+	$actual = file_get_contents($file);
+	$contador=1;
+?>
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <title>Wordpress Projetc</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <style>
-			.topleft {
-			  position: absolute;
-			  top: 100px;
-			  left: 16px;
-			  font-size: 18px;
-			}
-			.topright {
-			  position: absolute;
-			  top: 100px;
-			  right: 500px;
-			  font-size: 18px;
-			}
-			.bottomleft {
-			  position: absolute;
-			  bottom: 8px;
-			  left: 16px;
-			  font-size: 18px;
-			}
-			.bottomright {
-			  position: absolute;
-			  bottom: 8px;
-			  right: 16px;
-			  font-size: 18px;
-			}
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <br>
-      <h1>Wordpress Project</h1>
-      <hr>
-    </div>
-  </body>
+    <head>
+        <title>Wordpress Projetc</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <style>
+                .bottomleft {
+                position: absolute;
+                bottom: 8px;
+                left: 16px;
+                font-size: 18px;
+                }
+                .bottomright {
+                position: absolute;
+                bottom: 8px;
+                right: 16px;
+                font-size: 18px;
+                }
+        </style>
+            <script>
+            $(document).ready(function(){
+                $("#metricas").load("metricas.php");
+                setInterval(function() {
+                    $("#metricas").load("metricas.php");
+                }, 1000);
+            });
+        </script>
+    </head>
+    <body>
+        <div class="jumbotron text-center">
+            <h3>Wordpress Project</h3>
+        </div>
+        <div class="container">
+            <div class="row"> 
+            <!-- Barra de navegación -->
+                <div class="col-sm-2">
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Inicio</a>
+                        <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Listado Dockers</a>
+                        <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</a>
+                        <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                        <div class="tab-content" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                            <p>Prueba de texto</p>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                            <div id="metricas"></div>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">ccc</div>
+                        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab"></div>
+                </div>
+            </div>
+        </div>
+        
+    </body>
 </html>
-<?php
-	$file='datos.csv';
-	$actual = file_get_contents($file);
-if ( $_POST["borrar_csv"] == "borrar_csv"){
-	shell_exec (' > datos.csv');
-}
-if ( $_POST["no_mas"] == "no_datos" ) {
-	?>
-	<!-- IZQUIERDA-SUP -->
-
-	<div class="topleft">
-	  <p>¿Comenzamos con la instalación?</p>
-	  <a href="/install.php" class="btn btn-success">SI</a>
-	  <a href="/script.php" class="btn btn-success">NO</a>
-	</div>
-
-	<!-- DERECHA-SUP -->
-	<div class="topright">
-	  <p><b>Datos en el CSV:</b></p>
-	  <?php
-		$actual_a=rtrim($actual);
-		$actual_b=explode("\n",$actual_a);
-		foreach($actual_b as $linea){
-			if ($linea !== ""){
-			?><li type="circle"><?php echo $linea ?></li><?php
-			}
-		}
-	  ?>
-	</div>
-	<?php
-}
-else{
-?>
-<!-- IZQUIERDA-SUP -->
-
-	<div class="topleft">
-	  <p><b>Introduzca los datos de cada Wordpress:</b></p>
-	  <br>
-	  <form action="/script.php" method="post">
-
-	    &nbsp;&nbsp;&nbsp;&nbsp
-	    <label for="database">Nombre de la DB:</label>
-	    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp
-	    <input type="text" id="database" name="database"><br><br>
-
-	    &nbsp;&nbsp;&nbsp;&nbsp
-	    <label for="container">Nombre del Wordpress:</label>
-	    <input type="text" id="container" name="container"><br><br>
-
-	    &nbsp;&nbsp;&nbsp;&nbsp
-	    <label for="user">Nombre de usuario:</label>
-	    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	    <input type="text" id="user" name="user"><br><br>
-
-	    &nbsp;&nbsp;&nbsp;&nbsp
-	    <label for="pass">Contraseña:</label>
-	    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	    <input type="text" id="pass" name="pass"><br><br>
-
-	    &nbsp;&nbsp;&nbsp;&nbsp
-	    <label for="mail">Correo:</label>
-	    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	    <input type="text" id="mail" name="mail"><br><br>
-
-	    <input type="hidden" value="hay_datos" id="check" name="check">
-
-	    <input type="submit" value="Añadir Wordpress" class="btn btn-success">
-
-	  </form>
-	  <br>
-	  <form action="/script.php" method="post">
-	     <input type="hidden" value="no_datos" id="no_mas" name="no_mas">
-	     <button class="btn btn-success">Finalizar introducci&oacute;n</button>
-	     <input type="hidden" value="borrar_csv" id="borrar_csv" name="borrar_csv">
-	     <button class="btn btn-success">Borrar datos CSV</button>
-	  </form>
-	</div>
-
-	<!-- DERECHA-SUP -->
-	<div class="topright">
-	  <p><b>Datos en el CSV:</b></p>
-	  <?php
-		$actual_a=rtrim($actual);
-		$actual_b=explode("\n",$actual_a);
-		foreach($actual_b as $linea){
-			if ($linea !== ""){
-			?><li type="circle"><?php echo $linea ?></li><?php
-			}
-		}
-	  ?>
-	</div>
-
-
-<?php
-	if ($_POST["check"] == "hay_datos"){
-		$actual .= $_POST["database"].";".$_POST["container"].";".$_POST["user"].";".$_POST["pass"].";".$_POST["mail"]."\n";
-		if ($_POST["database"] == "" || $_POST["container"] == "" || $_POST["user"] == "" || $_POST["mail"] == "") {
-		?>
-		<!-- DIVISOR BAJO -->
-			<div class="bottomleft">
-			   <p style="border-left: 6px solid red;background-color:lightgrey;">Error, faltan campos</p>
-			</div>
-		<?php
-		}
-		else{
-		     file_put_contents($file, $actual);
-		}
-	}
-}
-?>

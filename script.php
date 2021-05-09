@@ -8,6 +8,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/jquery-latest.js"></script>
+	<script>
+		$(document).ready(function(){
+			$("#div_refresh").load("texto.php");
+			setInterval(function() {
+				$("#div_refresh").load("texto.php");
+			}, 1000);
+		});
+	</script>
     <style>
 			.bottomleft {
 			  position: absolute;
@@ -50,16 +59,8 @@ if ( $_POST["no_mas"] == "no_datos" ) {
 
 		<!-- DERECHA-SUP -->
 		<div class="col-sm-4" >
-		<h5><b>Datos en el CSV:</b></h5>
-		<?php
-			$actual_a=rtrim($actual);
-			$actual_b=explode("\n",$actual_a);
-			foreach($actual_b as $linea){
-				if ($linea !== ""){
-				?><li type="circle"><?php echo $linea ?></li><?php
-				}
-			}
-		?>
+			<h5><b>Datos en el CSV:</b></h5>
+			<div id="div_refresh"></div>
 		</div>
 	</div>
 </div>
@@ -121,17 +122,9 @@ else{
 		<br>
 		<br>
 		<!-- DERECHA-SUP -->
-		<div class="col-sm-4">
-		<h5><b>Datos en el CSV:</b></h5>
-		<?php
-			$actual_a=rtrim($actual);
-			$actual_b=explode("\n",$actual_a);
-			foreach($actual_b as $linea){
-				if ($linea !== ""){
-				?><li type="circle"><?php echo $linea ?></li><?php
-				}
-			}
-		?>
+		<div class="col-sm-4" >
+			<h5><b>Datos en el CSV:</b></h5>
+			<div id="div_refresh"></div>
 		</div>
 	</div>
 </div>
