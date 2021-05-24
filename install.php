@@ -7,6 +7,7 @@
 <html lang="es">
   <head>
     <title>Wordpress Projetc</title>
+	<link rel="shortcut icon" href="ficheros/wp.png" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -145,7 +146,7 @@
 					//Creación del entorno Docker
 					$ssh->exec("docker volume create ".$nombreWP);
 					$ssh->exec("cp -r /var/lib/docker/volumes/wp1/_data /var/lib/docker/volumes/".$nombreWP."/_data");
-					$ssh->exec("docker run -itd --name ".$nombreWP." -p ".$url.":80 -v ".$nombreWP.":/var/www/html -e WORDPRESS_DB_HOST=192.168.0.22:3306 -e WORDPRESS_DB_USER=wordpress -e WORDPRESS_DB_PASSWORD=MySQLPassPrueba -e WORDPRESS_DB_NAME=".$nombreDB." wordpress");	
+					$ssh->exec("docker run -itd --restart always --name ".$nombreWP." -p ".$url.":80 -v ".$nombreWP.":/var/www/html -e WORDPRESS_DB_HOST=192.168.0.22:3306 -e WORDPRESS_DB_USER=wordpress -e WORDPRESS_DB_PASSWORD=MySQLPassPrueba -e WORDPRESS_DB_NAME=".$nombreDB." wordpress");	
 					
 					//	Transformación de la plantilla
 					$ssh->exec("cat /home/pirate/template.sql | sed 's/datos_db/'".$nombreDB."'/g' | sed 's/URL_PAG/'".$url."'/g' | sed 's/blogname_data/'".$nombreWP."'/g' | sed 's/admin_email@wp.es/'".$mail."'/g' | sed 's/HashContrasena/'".$hash."'/g' | sed 's/user_login_data/'".$username."'/g' | sed 's/first_name_data/'".$username."'/g' > /home/pirate/sql_content.sql");
@@ -205,6 +206,9 @@
 
 			?>
 		</div>
+	</div>
+	<div id="bottomleft">
+		<a class="btn btn-info" href="http://85.136.119.23/index.php">Index</a>
 	</div>
 </body>
 </html>

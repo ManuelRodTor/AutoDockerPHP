@@ -2,6 +2,7 @@
 <html lang="es">
   <head>
     <title>Wordpress Projetc</title>
+	<link rel="shortcut icon" href="ficheros/wp.png" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -118,6 +119,7 @@ else{
 					<button class="btn btn-info btn-primary">Borrar datos CSV</button>
 				</form>
 			</div>
+			<a class="btn btn-info" href="http://85.136.119.23/index.php">Index</a>
 		</div>
 		<br>
 		<br>
@@ -148,4 +150,5 @@ else{
 		}
 	}
 }
+echo "<br>";
 ?>
