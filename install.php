@@ -188,7 +188,7 @@
 				echo "<p>&nbsp;&nbsp;&nbsp;&nbsp;Nombre del usuario: ".$username."</p>";
 				echo "<p>&nbsp;&nbsp;&nbsp;&nbsp;Contraseña del usuario: ".$pass."</p>";
 				echo "<p>&nbsp;&nbsp;&nbsp;&nbsp;Correo del usuario: ".$mail."</p>";
-				echo '&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://85.136.119.23:'.$url.'">Enlace al sitio Web</a>';
+				echo '&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://85.136.104.237:'.$url.'">Enlace al sitio Web</a>';
 				echo "<br>";
 				echo "<br>";
 				$contador++;
@@ -208,7 +208,7 @@
 		</div>
 	</div>
 	<div id="bottomleft">
-		<a class="btn btn-info" href="http://85.136.119.23/index.php">Index</a>
+		<a class="btn btn-info" href="http://85.136.104.237/index.php">Index</a>
 	</div>
 </body>
 </html>

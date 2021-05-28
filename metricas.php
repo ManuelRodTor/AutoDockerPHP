@@ -137,7 +137,7 @@
                             if($linea_campos_docker_ps == "wordpress"){
                                 $url_port=explode(":",$puertos_uso);
                                 ?>
-                                <td>"<a href="http://85.136.119.23:<?php echo $url_port[1] ?>">Enlace</a>"</td>
+                                <td>"<a href="http://85.136.104.237:<?php echo $url_port[1] ?>">Enlace</a>"</td>
                                 <?php
                             }
                             else{

@@ -66,7 +66,7 @@
                         <a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Listado Dockers</a>
                         <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Subir CSV</a>
                         <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Acerca del proyecto</a>
-                        <a class="nav-link" href="http://85.136.119.23/script.php">Levantar Wordpress</a>
+                        <a class="nav-link" href="http://85.136.104.237/script.php">Levantar Wordpress</a>
                     </div>
                 </div>
                 <div class="col-sm-8">

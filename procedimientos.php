@@ -20,6 +20,6 @@
         $ssh->exec("docker rm ".$linea." ");	
         $ssh->exec("docker volume rm ".$linea." ");	
     }
-    header("Location: http://85.136.119.23/index.php");
+    header("Location: http://85.136.104.237/index.php");
     exit();
 ?>
