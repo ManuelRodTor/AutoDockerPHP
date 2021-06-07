@@ -1,4 +1,6 @@
 <?php
+
+session_start();
     $cuenta = 0;
 //Configuración Global
 
@@ -48,7 +50,16 @@
         <table class="table">
         <thead>
         <tr>
-            <th><input type="checkbox" name="select-all" id="select-all" /></th>
+            <th>
+                <?php
+                if($_SESSION["login"] == "admin"){
+                    ?><input type="checkbox" name="select-all" id="select-all" /> <?php
+                    }
+                else{
+                    ?> <?php
+                }
+                ?>
+            </th>
             <th>Nombre</th>
             <th>Redirección de puertos</th>
             <th>Enlace</th>
@@ -81,9 +92,14 @@
                             }
                             else{
                                 $cuenta += 1;
+                                if($_SESSION["login"] == "admin"){
                                 ?>
                                     <td><input type="checkbox" id="select_container" name="select_container.<?php echo $cuenta?>" value="<?php echo $nombre_cont_port ?>"></td>
                                 <?php
+                                }
+                                else{
+                                   ?> <td></td> <?php
+                                }
                             }
                             ?>
                                 <td><?php echo $nombre_cont_port ?></td>
@@ -178,7 +194,13 @@
                 }
         </script>
     -->
-
-
-    <button type="submit" class="btn btn-secondary" >Borrar Wordpress</button>
+    <?php
+        if($_SESSION["login"] == "admin"){
+        ?>
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <button type="submit" class="btn btn-secondary" name="Accion" value="Borrar">Borrar</button>
+            <button type="submit" class="btn btn-secondary" name="Accion" value="Parar">Parar</button>
+            <button type="submit" class="btn btn-secondary" name="Accion" value="Start">Start</button>
+        </div>
+        <?php } ?>
     </form>

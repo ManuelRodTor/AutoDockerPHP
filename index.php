@@ -58,6 +58,43 @@
         <div class="jumbotron text-center">
             <h3>Wordpress Project</h3>
         </div>
+
+        <!-- PRE LOGIN-->
+        <?php
+            if(! isset($_SESSION["login"])){
+                if(isset($_SESSION["error"])){
+                    ?>
+                        <div class="bottomright">
+                            <div class="alert alert-danger alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                Usuario Inexistente
+                            </div>
+                        </div>
+                    <?php
+                }
+                ?>
+                    <center>
+                        <form method="post" action="login.php">
+                            <table>
+                            <tr><td colspan="2" style="background-color:#33A8DB; padding-bottom:5px; padding-top:5px;">
+                            <label><h5>&nbsp;&nbsp;Login</h5></label></td>
+                            </tr>
+                            <tr><td align="center" rowspan="5"><img src="ficheros/candado.png" width="200" height="200"/></td>
+                            <td><label>Usuario</label></td>
+                            </tr>
+                            <tr><td><input type="text" name="txtusuario"/></td></tr>
+                            <tr><td><label>Password</label></td></tr>
+                            <tr><td><input type="password" name="txtpassword"/></td></tr>
+                            <tr><td><input type="submit" class="btn btn-primary btn-lg" value="Ingresar" /> </td></tr>
+                            </table>
+                        </form>
+                    </center>
+                <?php
+            }
+            else{
+        ?>
+
+        <!-- POST LOGIN-->
         <div class="container">
             <div class="row"> 
             <!-- Barra de navegación -->
@@ -143,6 +180,24 @@
                 </div>
             </div>
         </div>
+
+        <!-- DIVISOR IZQUIERDA -->
+        <div class="bottomleft">
+            <p>Sesión inciada como: <b><?php echo $_SESSION["login"] ?></b>&nbsp;&nbsp;&nbsp;<input type="submit" name="" value="Cerrar Sesión" id="boton1" onclick = "log_of();" class="btn btn-primary btn-sm disabled" ></p>
+            <script>
+                function log_of()
+                {
+                    $.ajax({
+                        type:'POST', //aqui puede ser igual get
+                        url: 'cerrar_sesion.php',//aqui va tu direccion donde esta tu funcion php
+                        success:function(data){
+                            },
+                        error:function(data){
+                        }
+                    });
+                }
+            </script>
+        </div>
         <!-- DIVISOR BAJO -->
         <?php
             if (isset($_SESSION['message']) && $_SESSION['message']){
@@ -168,9 +223,7 @@
                 }
                 unset($_SESSION['message']);
             }
-
+        }
         ?>
-
-
     </body>
 </html>
