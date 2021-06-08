@@ -1,8 +1,19 @@
 <?php
+    session_start();
+
+	//LIB php mailer
+	use PHPMailer\PHPMailer\PHPMailer;
+	use PHPMailer\PHPMailer\SMTP;
+
+	require '/var/www/PHPMailer/src/Exception.php';
+	require '/var/www/PHPMailer/src/PHPMailer.php';
+	require '/var/www/PHPMailer/src/SMTP.php';
+
 	$file='/var/www/datos.csv';
 	$actual = file_get_contents($file);
 	$contador=1;
-?>
+	?>
+
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -125,6 +136,70 @@
 					$pass=$dato[3];
 					$mail=$dato[4];
 					
+
+				//Carga de datos correo
+
+				shell_exec ('echo "<html>" > /var/www/ficheros/contents.html');
+				shell_exec ('echo "<body>" >> /var/www/ficheros/contents.html');
+				shell_exec ('echo "<h1>Credenciales de Wordpress</h1>" >> /var/www/ficheros/contents.html');
+				shell_exec ('echo "<p><b>&nbsp;&nbsp;&nbsp;&nbsp;Docker nº'.$contador.'</b></p>" >> /var/www/ficheros/contents.html');
+				shell_exec ('echo "<p>&nbsp;&nbsp;&nbsp;&nbsp;Nombre del Container: '.$nombreDB.'</p>" >> /var/www/ficheros/contents.html');
+				shell_exec (' echo "<p>&nbsp;&nbsp;&nbsp;&nbsp;Nombre de la Base de Datos: '.$nombreWP.'</p>" >> /var/www/ficheros/contents.html');
+				shell_exec (' echo "<p>&nbsp;&nbsp;&nbsp;&nbsp;Nombre del usuario: '.$username.'</p>" >> /var/www/ficheros/contents.html');
+				shell_exec (' echo "<p>&nbsp;&nbsp;&nbsp;&nbsp;Contraseña del usuario: '.$pass.'</p>" >> /var/www/ficheros/contents.html');
+				shell_exec (' echo "<p>&nbsp;&nbsp;&nbsp;&nbsp;Correo del usuario: '.$mail.'</p>" >> /var/www/ficheros/contents.html');
+				shell_exec (' echo "<p>&nbsp;&nbsp;&nbsp;&nbsp; Panel administración: http://85.136.104.237:'.$url.'/wp-admin</p>" >> /var/www/ficheros/contents.html');
+				shell_exec (' echo "<p>&nbsp;&nbsp;&nbsp;&nbsp; Sitio Web: http://85.136.104.237:'.$url.'</p>" >> /var/www/ficheros/contents.html');
+				shell_exec (' echo "</body>" >> /var/www/ficheros/contents.html');
+				shell_exec (' echo "</html>" >> /var/www/ficheros/contents.html');
+				
+				ob_start();
+
+			//Contenido SMTP
+				$email = new PHPMailer();
+				$email->isSMTP();
+
+				//Enable SMTP debugging
+				//SMTP::DEBUG_OFF = off (for production use)
+				//SMTP::DEBUG_CLIENT = client messages
+				//SMTP::DEBUG_SERVER = client and server messages
+				$email->SMTPDebug = SMTP::DEBUG_SERVER;
+
+				$email->Host = 'smtp.gmail.com';
+				$email->Port = 587;
+				$email->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+				$email->SMTPAuth = true;
+
+				//Usuario
+				$email->Username = 'autowordpressphp@gmail.com';
+				$email->Password = 'autowordpressphp1-';
+
+				//Remitente
+				$email->setFrom('autowordpressphp@gmail.com', 'Auto Wordpress');
+				$email->addReplyTo('m.rodrigueztorrado@gmail.com', 'Manuel Rodriguez'); //Alt remitente
+
+				//Set who the message is to be sent to
+				$email->addAddress($mail, $username);
+
+				//Set the subject line
+				$email->Subject = 'Entrega de credenciales Wordpress';
+
+				//Read an HTML message body from an external file, convert referenced images to embedded,
+				//convert HTML into a basic plain-text alternative body
+				$email->msgHTML(file_get_contents('/var/www/ficheros/contents.html'), __DIR__);
+
+				//Replace the plain text body with one created manually
+				$email->AltBody = 'Prueba de texto';
+
+				if (!$email->send()) {
+					echo 'Mailer Error: ' . $email->ErrorInfo;
+				} else {
+					echo 'Message sent!';
+				}
+
+				ob_end_clean();
+
+
 					//Generación de datos restantes
 					$url= $all_ports[$indexport];
 
@@ -191,6 +266,13 @@
 				echo '&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://85.136.104.237:'.$url.'">Enlace al sitio Web</a>';
 				echo "<br>";
 				echo "<br>";
+
+				$_SESSION["correo"] = $mail;
+				$_SESSION["nombreCorreo"]= $username;
+			//	shell_exec('php /var/www/prubeamail.php');
+			// 	exec('php /var/www/prubeamail.php');
+				
+
 				$contador++;
 				?>
 					</div>
